@@ -1,0 +1,37 @@
+services:
+  s6-database:
+    image: mongodb/mongodb-community-server
+    container_name: s6-database
+    hostname: database.s6.pdn
+    restart: always
+    ports:
+      - ${DB_PORT}:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - ./mongodb/config/mongod.conf:/etc/mongod.conf
+      - ./mongodb/data/log/:/var/log/mongodb
+      - ./mongodb/data/volume:/var/lib/mongodb
+    command: ['-f', '/etc/mongod.conf']
+  s6-oauth:
+    #use -dev for check data set in .env its correct.
+    image: pdnmx/s1-oauth:1.0-dev
+    container_name: s6-oauth
+    hostname: oauth.s6.pdn
+    restart: always
+    ports:
+      - ${API_OAUTH_PORT}:3000
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_AUDIENCE: ${JWT_AUDIENCE}
+      JWT_ISSUER: ${JWT_ISSUER}
+      JWT_TOKEN_TTL: ${JWT_TOKEN_TTL}
+      JWT_REFRESH_TOKEN_TTL: ${JWT_REFRESH_TOKEN_TTL}
+      API_OAUTH_PREFIX: ${API_OAUTH_PREFIX}
+      MONGO_OAUTH_HOST: ${MONGO_OAUTH_HOST}
+      MONGO_OAUTH_USER: ${MONGO_OAUTH_USER}
+      MONGO_OAUTH_PASS: ${MONGO_OAUTH_PASS}
+      MONGO_OAUTH_PORT: ${MONGO_OAUTH_PORT}
+      MONGO_OAUTH_DATABASE: ${MONGO_OAUTH_DATABASE}
+      MONGO_OAUTH_DB_AUTH: ${MONGO_OAUTH_DB_AUTH}
