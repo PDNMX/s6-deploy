@@ -131,3 +131,5 @@ dist
 
 
 mongodb/data
+s6-capturador-back
+s6-capturador-front
