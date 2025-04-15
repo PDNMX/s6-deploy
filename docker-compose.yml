@@ -1,8 +1,8 @@
-name: manual-s6
+name: s6-capturador
 services:
   s6-database:
     image: mongodb/mongodb-community-server
-    container_name: s6-database2
+    container_name: s6-database
     hostname: database.s6.pdn
     restart: always
     ports:
@@ -18,7 +18,7 @@ services:
   s6-oauth:
     #use -dev for check data set in .env its correct.
     image: pdnmx/s1-oauth:1.0-dev
-    container_name: s6-oauth.test
+    container_name: s6-oauth
     hostname: oauth.s6.pdn
     restart: always
     ports:
